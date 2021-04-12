@@ -116,8 +116,8 @@ export default class AskForSocialWorkScreen extends Component {
               requestId: doc.data().request_id,
               requestedworkName: doc.data().work_name,
               workStatus: doc.data().work_status,
-              requestedImageLink: doc.data().image_link,
               docId: doc.id,
+              dataSource: doc.data()
             });
           }
         });
@@ -187,13 +187,6 @@ export default class AskForSocialWorkScreen extends Component {
   //render Items  functionto render the works from api
   renderItem = ({ item, i }) => {
 
-
-    let obj = {
-      title: item.volumeInfo.title,
-      selfLink: item.selfLink,
-      buyLink: item.saleInfo.buyLink,
-      imageLink: item.volumeInfo.imageLinks,
-    };
 
     return (
       <TouchableHighlight
