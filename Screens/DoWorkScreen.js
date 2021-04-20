@@ -11,6 +11,7 @@ import { ListItem } from "react-native-elements";
 import firebase from "firebase";
 import db from "../config";
 import MyHeader from "../components/MyHeader";
+import { Alert } from "react-native";
 
 export default class DoWorkScreen extends Component {
   constructor() {
@@ -48,7 +49,7 @@ export default class DoWorkScreen extends Component {
       <ListItem
         key={i}
         title={item.work_name}
-        subtitle={item.work_descreption}
+        subtitle={`${item.work_descreption} \nLocation: ${item.location} \nTime: ${item.time} \nContact: ${item.contact}`}
         titleStyle={{ color: "black", fontWeight: "bold" }}
         leftElement={
           <Image
@@ -62,12 +63,10 @@ export default class DoWorkScreen extends Component {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              this.props.navigation.navigate("WorkDetailsScreen", {
-                details: item,
-              });
+              Alert.alert("Your request has been accepted please be at the place at correct time and contact the requester")
             }}
           >
-            <Text style={{ color: "#ffff" }}>View</Text>
+            <Text style={{ color: "#ffff" }}>Accept</Text>
           </TouchableOpacity>
         }
         bottomDivider

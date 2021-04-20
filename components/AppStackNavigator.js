@@ -8,7 +8,7 @@ import WorkDetailsScreen  from '../Screens/WorkDetailsScreen';
 
 
 export const AppStackNavigator = createStackNavigator({
-  c : {
+  DoWorkScreen : {
     screen : DoWorkScreen,
     navigationOptions:{
       headerShown : false

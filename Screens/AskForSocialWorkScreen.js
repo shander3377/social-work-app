@@ -35,6 +35,9 @@ export default class AskForSocialWorkScreen extends Component {
       dataSource: "",
       requestedImageLink: "",
       showFlatlist: false,
+      location: "",
+      time: "",
+      contact: ""
     };
   }
 
@@ -42,7 +45,7 @@ export default class AskForSocialWorkScreen extends Component {
     return Math.random().toString(36).substring(7);
   }
 
-  addRequest = async (workName, descreption) => {
+  addRequest = async (workName, descreption, location, time, contact) => {
     var userId = this.state.userId;
     var randomRequestId = this.createUniqueId();
 
@@ -55,6 +58,10 @@ export default class AskForSocialWorkScreen extends Component {
       request_id: randomRequestId,
       work_status: "requested",
       date: firebase.firestore.FieldValue.serverTimestamp(),
+      work_descreption: descreption,
+      location: location,
+      time: time,
+      contact: contact
     });
 
     await this.getworkRequest();
@@ -118,6 +125,7 @@ export default class AskForSocialWorkScreen extends Component {
               workStatus: doc.data().work_status,
               docId: doc.id,
               dataSource: doc.data()
+        
             });
           }
         });
@@ -282,25 +290,18 @@ export default class AskForSocialWorkScreen extends Component {
           <MyHeader title="Request work" navigation={this.props.navigation} />
         </View>
         <View style={{ flex: 0.9 }}>
+          <ScrollView>
           <Input
             style={styles.formTextInput}
-            label={"work Name"}
-            placeholder={"work name"}
+            label={"Work Name"}
+            placeholder={"Work Name"}
             containerStyle={{ marginTop: RFValue(60) }}
             onChangeText={(text) => this.getworksFromApi(text)}
             onClear={(text) => this.getworksFromApi("")}
             value={this.state.workName}
           />
-          {this.state.showFlatlist ? (
-            <FlatList
-              data={this.state.dataSource}
-              renderItem={this.renderItem}
-              enableEmptySections={true}
-              style={{ marginTop: RFValue(10) }}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          ) : (
-            <View style={{ alignItems: "center" }}>
+        
+    
               <Input
                 style={styles.formTextInput}
                 containerStyle={{ marginTop: RFValue(30) }}
@@ -315,12 +316,57 @@ export default class AskForSocialWorkScreen extends Component {
                 }}
                 value={this.state.descreption}
               />
+                      <Input
+                style={styles.formTextInput}
+                containerStyle={{ marginTop: RFValue(30) }}
+                multiline
+                numberOfLines={4}
+                label={"Location"}
+                placeholder={"At what place people should come?"}
+                onChangeText={(text) => {
+                  this.setState({
+                    location: text,
+                  });
+                }}
+                value={this.state.location}
+              />
+              <Input
+                style={styles.formTextInput}
+                containerStyle={{ marginTop: RFValue(30) }}
+                multiline
+                numberOfLines={2}
+                label={"Time"}
+                placeholder={"At what time people should come?"}
+                onChangeText={(text) => {
+                  this.setState({
+                    time: text,
+                  });
+                }}
+                value={this.state.time}
+              />
+                    <Input
+                style={styles.formTextInput}
+                containerStyle={{ marginTop: RFValue(30) }}
+                multiline
+                numberOfLines={2}
+                label={"Contact"}
+                placeholder={"Your whatsapp contact No."}
+                onChangeText={(text) => {
+                  this.setState({
+                    contact: text,
+                  });
+                }}
+                value={this.state.contact}
+              />
               <TouchableOpacity
-                style={[styles.button, { marginTop: RFValue(30) }]}
+                style={[styles.button, { marginTop: RFValue(20) }]}
                 onPress={() => {
                   this.addRequest(
                     this.state.workName,
-                    this.state.descreption
+                    this.state.descreption,
+                    this.state.location,
+                    this.state.time,
+                    this.state.contact
                   );
                 }}
               >
@@ -330,8 +376,8 @@ export default class AskForSocialWorkScreen extends Component {
                   Request
                 </Text>
               </TouchableOpacity>
-            </View>
-          )}
+         
+              </ScrollView>
         </View>
       </View>
     );
@@ -421,5 +467,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.44,
     shadowRadius: 10.32,
     elevation: 16,
+    marginLeft: 50
   },
 });
